@@ -1,0 +1,7 @@
+# Compiled output
+/bin
+/obj
+/publish
+
+# Environment
+.env
