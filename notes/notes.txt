@@ -1,0 +1,20 @@
+Tutorial: Create a controller-based web API with ASP.NET Core
+https://learn.microsoft.com/en-us/aspnet/core/tutorials/first-web-api?view=aspnetcore-9.0&tabs=visual-studio-code
+
+Next step:
+Examine the GET methods
+
+
+
+
+Google Cloud Vision
+https://cloud.google.com/dotnet/docs/reference/Google.Cloud.Vision.V1/latest#installation
+
+### Setup steps: ###
+setup service account [x]
+install google cloud cli [x]
+Create local authentication credentials [x] -- https://cloud.google.com/docs/authentication/set-up-adc-local-dev-environment
+  Credentials saved to file: [/home/jeremy/.config/gcloud/application_default_credentials.json]
+  These credentials will be used by any library that requests Application Default Credentials (ADC).
+  Quota project "recipe-rabbit-452123" was added to ADC which can be used by Google client libraries for billing and quota. Note that some services may still bill the project owning the resource.
+
