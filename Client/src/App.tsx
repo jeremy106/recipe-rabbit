@@ -1,53 +1,35 @@
-import { useState, useEffect } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import axios from 'axios'
 import './App.css'
+import { getRecipes } from './api/recipes'
+import { useQuery } from '@tanstack/react-query'
 
-// Temporary API testing
 
 function App() {
-  // const [count, setCount] = useState(0)
-  const [message, setMessage] = useState('init')
 
-  useEffect(() => {
-    axios
-      .get('http://localhost:5107/api/recipe') // Replace with your API URL
-      .then((response) => {
-        console.log(response)
-        setMessage("Success")
-      })
-      .catch((error) => {
-        console.error('Error fetching data:', error)
-      })
-  }, [])
+  const { data, isPending, isError } = useQuery({
+    queryKey: ['recipes'],
+    queryFn: () => getRecipes()
+  })
 
-  console.log(message)
+  if(isPending) {
+    return (
+      <p>Loading</p>
+    )
+    }
+
+  if(isError) {
+    return (
+      <p>Error</p>
+    )
+  }
+
+  console.log(data)
 
   return (
     <>
-      <h1>App works</h1>
-      {/* <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p> */}
-      <div>{message}</div>
+      <h1>React Application Online</h1>
+      <p>
+        { data.body[0].name }
+      </p>
     </>
   )
 }
