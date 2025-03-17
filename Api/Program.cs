@@ -2,13 +2,15 @@ using Microsoft.EntityFrameworkCore;
 using RecipeRabbit.Models;
 
 var builder = WebApplication.CreateBuilder(args);
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
 // Add services to the container.
 builder.Services.AddControllers();
 builder.Services.AddOpenApi();
 
-builder.Services.AddDbContext<RecipeContext>(opt =>
-  opt.UseInMemoryDatabase("RecipeRabbitDb"));
+// Add Database context
+builder.Services.AddDbContext<RecipeContext>(opt => opt.UseSqlite(connectionString));
+
 
 builder.Services.AddCors(options =>
 {
