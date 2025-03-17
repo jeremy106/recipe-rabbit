@@ -7,7 +7,7 @@
 namespace RecipeRabbit.Migrations
 {
     /// <inheritdoc />
-    public partial class Init : Migration
+    public partial class initialise : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -31,8 +31,7 @@ namespace RecipeRabbit.Migrations
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    Name = table.Column<string>(type: "TEXT", nullable: true),
-                    Instructions = table.Column<string>(type: "TEXT", nullable: true)
+                    Name = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -46,7 +45,6 @@ namespace RecipeRabbit.Migrations
                     RecipeId = table.Column<int>(type: "INTEGER", nullable: false),
                     IngredientId = table.Column<int>(type: "INTEGER", nullable: false),
                     Amount = table.Column<string>(type: "TEXT", nullable: false),
-                    Unit = table.Column<string>(type: "TEXT", nullable: false),
                     Notes = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
@@ -66,6 +64,27 @@ namespace RecipeRabbit.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Step",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    RecipeId = table.Column<int>(type: "INTEGER", nullable: false),
+                    Index = table.Column<int>(type: "INTEGER", nullable: false),
+                    Description = table.Column<string>(type: "TEXT", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Step", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Step_Recipes_RecipeId",
+                        column: x => x.RecipeId,
+                        principalTable: "Recipes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.InsertData(
                 table: "Ingredient",
                 columns: new[] { "Id", "Name" },
@@ -77,22 +96,36 @@ namespace RecipeRabbit.Migrations
 
             migrationBuilder.InsertData(
                 table: "Recipes",
-                columns: new[] { "Id", "Instructions", "Name" },
-                values: new object[] { 1, "Cook mac, then add cheese", "Mac 'n' Cheese" });
+                columns: new[] { "Id", "Name" },
+                values: new object[] { 1, "Mac 'n' Cheese" });
 
             migrationBuilder.InsertData(
                 table: "RecipeIngredient",
-                columns: new[] { "IngredientId", "RecipeId", "Amount", "Notes", "Unit" },
+                columns: new[] { "IngredientId", "RecipeId", "Amount", "Notes" },
                 values: new object[,]
                 {
-                    { 1, 1, "500", null, "g" },
-                    { 2, 1, "1.5", null, "cups" }
+                    { 1, 1, "500g", null },
+                    { 2, 1, "1.5 cups", null }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Step",
+                columns: new[] { "Id", "Description", "Index", "RecipeId" },
+                values: new object[,]
+                {
+                    { 1, "Cook macaroni", 0, 1 },
+                    { 2, "Add Cheese", 1, 1 }
                 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_RecipeIngredient_IngredientId",
                 table: "RecipeIngredient",
                 column: "IngredientId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Step_RecipeId",
+                table: "Step",
+                column: "RecipeId");
         }
 
         /// <inheritdoc />
@@ -100,6 +133,9 @@ namespace RecipeRabbit.Migrations
         {
             migrationBuilder.DropTable(
                 name: "RecipeIngredient");
+
+            migrationBuilder.DropTable(
+                name: "Step");
 
             migrationBuilder.DropTable(
                 name: "Ingredient");

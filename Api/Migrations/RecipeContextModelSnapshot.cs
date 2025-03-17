@@ -49,9 +49,6 @@ namespace RecipeRabbit.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("Instructions")
-                        .HasColumnType("TEXT");
-
                     b.Property<string>("Name")
                         .HasColumnType("TEXT");
 
@@ -63,7 +60,6 @@ namespace RecipeRabbit.Migrations
                         new
                         {
                             Id = 1,
-                            Instructions = "Cook mac, then add cheese",
                             Name = "Mac 'n' Cheese"
                         });
                 });
@@ -83,10 +79,6 @@ namespace RecipeRabbit.Migrations
                     b.Property<string>("Notes")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Unit")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
                     b.HasKey("RecipeId", "IngredientId");
 
                     b.HasIndex("IngredientId");
@@ -98,15 +90,52 @@ namespace RecipeRabbit.Migrations
                         {
                             RecipeId = 1,
                             IngredientId = 1,
-                            Amount = "500",
-                            Unit = "g"
+                            Amount = "500g"
                         },
                         new
                         {
                             RecipeId = 1,
                             IngredientId = 2,
-                            Amount = "1.5",
-                            Unit = "cups"
+                            Amount = "1.5 cups"
+                        });
+                });
+
+            modelBuilder.Entity("RecipeRabbit.Models.Step", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("Index")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("RecipeId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RecipeId");
+
+                    b.ToTable("Step");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Description = "Cook macaroni",
+                            Index = 0,
+                            RecipeId = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Description = "Add Cheese",
+                            Index = 1,
+                            RecipeId = 1
                         });
                 });
 
@@ -129,9 +158,20 @@ namespace RecipeRabbit.Migrations
                     b.Navigation("Recipe");
                 });
 
+            modelBuilder.Entity("RecipeRabbit.Models.Step", b =>
+                {
+                    b.HasOne("RecipeRabbit.Models.Recipe", null)
+                        .WithMany("Steps")
+                        .HasForeignKey("RecipeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("RecipeRabbit.Models.Recipe", b =>
                 {
                     b.Navigation("RecipeIngredients");
+
+                    b.Navigation("Steps");
                 });
 #pragma warning restore 612, 618
         }

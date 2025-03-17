@@ -1,3 +1,5 @@
+using System.ComponentModel;
+using Microsoft.AspNetCore.Authorization.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 
 namespace RecipeRabbit.Models;
@@ -28,7 +30,7 @@ public class RecipeContext : DbContext
 
     // Seed data
     modelBuilder.Entity<Recipe>().HasData(
-      new Recipe { Id = 1, Name = "Mac 'n' Cheese", Instructions = "Cook mac, then add cheese"}
+      new Recipe { Id = 1, Name = "Mac 'n' Cheese" }
     );
 
     modelBuilder.Entity<Ingredient>().HasData(
@@ -36,24 +38,32 @@ public class RecipeContext : DbContext
       new Ingredient { Id = 2, Name = "Cheese"}
     );
 
-    // modelBuilder.Entity<RecipeIngredient>().HasData(
-    //   new RecipeIngredient { RecipeId = 1, IngredientId = 1, Amount = "500", Unit = "g", Recipe = new Recipe { Id = 1 }, Ingredient = new Ingredient { Id = 1 , Name = "Macaroni"}},
-    //   new RecipeIngredient { RecipeId = 1, IngredientId = 2, Amount = "1.5", Unit = "cups", Recipe = new Recipe { Id = 1 }, Ingredient = new Ingredient { Id = 2, Name = "Cheese" }}
-    // );
-
     modelBuilder.Entity<RecipeIngredient>().HasData(
       new RecipeIngredient { 
         RecipeId = 1, 
         IngredientId = 1, 
-        Amount = "500", 
-        Unit = "g"
+        Amount = "500g", 
         },
       new RecipeIngredient { 
         RecipeId = 1, 
         IngredientId = 2, 
-        Amount = "1.5", 
-        Unit = "cups"
+        Amount = "1.5 cups", 
         }
+    );
+
+    modelBuilder.Entity<Step>().HasData(
+      new Step {
+        Id = 1,
+        RecipeId = 1,
+        Index = 0, 
+        Description = "Cook macaroni"
+      },
+      new Step {
+        Id = 2,
+        RecipeId = 1,
+        Index = 1, 
+        Description = "Add Cheese"
+      }
     );
   }
 }

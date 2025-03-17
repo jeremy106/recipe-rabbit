@@ -26,6 +26,7 @@ namespace recipe_rabbit.Controllers
         public async Task<ActionResult<IEnumerable<Recipe>>> GetRecipes()
         {
             var recipes = await db.Recipes
+              .Include(r => r.Steps)
               .Include(r => r.RecipeIngredients)
               .ThenInclude(ri => ri.Ingredient)
               .ToListAsync();
@@ -34,16 +35,20 @@ namespace recipe_rabbit.Controllers
             {
               Id = r.Id,
               Name = r.Name,
+              Steps = r.Steps
+                .Select(s => new StepDto
+                {
+                  Index = s.Index,
+                  Description = s.Description
+                }).ToList(),
               Ingredients = r.RecipeIngredients
-                .Where(ri => ri.Ingredient != null)
                 .Select(ri => new IngredientDto
                 {
-                  Id = ri.Ingredient.Id,
+                  Id = ri.IngredientId,
                   Name = ri.Ingredient.Name,
                   Amount = ri.Amount,
-                  Unit = ri.Unit
                 }).ToList()
-            }).ToList();
+              }).ToList();
 
             return Ok(recipeDtos);
         }
@@ -52,14 +57,38 @@ namespace recipe_rabbit.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Recipe>> GetRecipe(int id)
         {
-            var recipe = await db.Recipes.FindAsync(id);
+            var recipe = await db.Recipes
+              .Where(r => r.Id == id)
+              .Include(r => r.Steps)
+              .Include(r => r.RecipeIngredients)
+              .ThenInclude(ri => ri.Ingredient)
+              .FirstOrDefaultAsync();
 
             if (recipe == null)
             {
                 return NotFound();
             }
 
-            return recipe;
+            var recipeDto = new RecipeDto 
+            {
+              Id = recipe.Id,
+              Name = recipe.Name,
+              Steps = recipe.Steps
+                .Select(s => new StepDto
+                {
+                  Index = s.Index,
+                  Description = s.Description
+                }).ToList(),
+              Ingredients = recipe.RecipeIngredients
+                .Select(ri => new IngredientDto
+                {
+                  Id = ri.IngredientId,
+                  Name = ri.Ingredient.Name,
+                  Amount = ri.Amount
+                }).ToList()
+            };
+
+            return Ok(recipeDto);
         }
 
         // PUT: api/Recipe/5
