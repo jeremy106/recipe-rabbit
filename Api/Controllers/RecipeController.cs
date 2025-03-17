@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using RecipeRabbit.Models;
+using RecipeRabbit.Models.DTOs;
 
 namespace recipe_rabbit.Controllers
 {
@@ -13,25 +14,45 @@ namespace recipe_rabbit.Controllers
     [ApiController]
     public class RecipeController : ControllerBase
     {
-        private readonly RecipeContext _context;
+        private readonly RecipeContext db;
 
         public RecipeController(RecipeContext context)
         {
-            _context = context;
+            db = context;
         }
 
         // GET: api/Recipe
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Recipe>>> GetRecipes()
         {
-            return await _context.Recipes.ToListAsync();
+            var recipes = await db.Recipes
+              .Include(r => r.RecipeIngredients)
+              .ThenInclude(ri => ri.Ingredient)
+              .ToListAsync();
+            
+            var recipeDtos = recipes.Select(r => new RecipeDto
+            {
+              Id = r.Id,
+              Name = r.Name,
+              Ingredients = r.RecipeIngredients
+                .Where(ri => ri.Ingredient != null)
+                .Select(ri => new IngredientDto
+                {
+                  Id = ri.Ingredient.Id,
+                  Name = ri.Ingredient.Name,
+                  Amount = ri.Amount,
+                  Unit = ri.Unit
+                }).ToList()
+            }).ToList();
+
+            return Ok(recipeDtos);
         }
 
         // GET: api/Recipe/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Recipe>> GetRecipe(int id)
         {
-            var recipe = await _context.Recipes.FindAsync(id);
+            var recipe = await db.Recipes.FindAsync(id);
 
             if (recipe == null)
             {
@@ -51,11 +72,11 @@ namespace recipe_rabbit.Controllers
                 return BadRequest();
             }
 
-            _context.Entry(recipe).State = EntityState.Modified;
+            db.Entry(recipe).State = EntityState.Modified;
 
             try
             {
-                await _context.SaveChangesAsync();
+                await db.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -77,8 +98,8 @@ namespace recipe_rabbit.Controllers
         [HttpPost]
         public async Task<ActionResult<Recipe>> PostRecipe(Recipe recipe)
         {
-            _context.Recipes.Add(recipe);
-            await _context.SaveChangesAsync();
+            db.Recipes.Add(recipe);
+            await db.SaveChangesAsync();
 
             return CreatedAtAction(nameof(GetRecipe), new { id = recipe.Id }, recipe);
         }
@@ -87,21 +108,21 @@ namespace recipe_rabbit.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteRecipe(int id)
         {
-            var recipe = await _context.Recipes.FindAsync(id);
+            var recipe = await db.Recipes.FindAsync(id);
             if (recipe == null)
             {
                 return NotFound();
             }
 
-            _context.Recipes.Remove(recipe);
-            await _context.SaveChangesAsync();
+            db.Recipes.Remove(recipe);
+            await db.SaveChangesAsync();
 
             return NoContent();
         }
 
         private bool RecipeExists(int id)
         {
-            return _context.Recipes.Any(e => e.Id == id);
+            return db.Recipes.Any(e => e.Id == id);
         }
     }
 }
