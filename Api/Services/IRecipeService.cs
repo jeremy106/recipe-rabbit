@@ -28,7 +28,11 @@ public class RecipeService : IRecipeService
       {
         var recipe = new Recipe
         {
-          Name = recipeInput.Name
+          Name = recipeInput.Name,
+          DateAddedUtc = DateTime.Now,
+          Author = recipeInput.Author,
+          Source = recipeInput.Source,
+          Servings = recipeInput.Servings
         };
 
         db.Recipes.Add(recipe);
@@ -68,6 +72,7 @@ public class RecipeService : IRecipeService
             RecipeId = recipe.Id,
             IngredientId = ingredient.Id,
             Amount = ingredientInput.Amount,
+            Notes = ingredientInput.Notes
           };
 
           db.RecipeIngredients.Add(recipeIngredient);

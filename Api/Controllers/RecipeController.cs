@@ -39,6 +39,10 @@ namespace recipe_rabbit.Controllers
             {
               Id = r.Id,
               Name = r.Name,
+              DateAddedUtc = r.DateAddedUtc,
+              Author = r.Author,
+              Source = r.Source,
+              Servings = r.Servings,
               Steps = r.Steps
                 .Select(s => new StepDto
                 {
@@ -50,6 +54,7 @@ namespace recipe_rabbit.Controllers
                 {
                   Name = ri.Ingredient?.Name,
                   Amount = ri.Amount,
+                  Notes = ri.Notes
                 }).ToList()
               }).ToList();
 
@@ -76,6 +81,10 @@ namespace recipe_rabbit.Controllers
             {
               Id = recipe.Id,
               Name = recipe.Name,
+              DateAddedUtc = recipe.DateAddedUtc,
+              Author = recipe.Author,
+              Source = recipe.Source,
+              Servings = recipe.Servings,
               Steps = recipe.Steps
                 .Select(s => new StepDto
                 {
@@ -86,7 +95,8 @@ namespace recipe_rabbit.Controllers
                 .Select(ri => new IngredientDto
                 {
                   Name = ri.Ingredient?.Name,
-                  Amount = ri.Amount
+                  Amount = ri.Amount,
+                  Notes = ri.Notes
                 }).ToList()
             };
 

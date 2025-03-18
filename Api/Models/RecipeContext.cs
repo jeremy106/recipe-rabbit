@@ -33,7 +33,7 @@ public class RecipeContext : DbContext
 
     // Seed data
     modelBuilder.Entity<Recipe>().HasData(
-      new Recipe { Id = 1, Name = "Mac 'n' Cheese" }
+      new Recipe { Id = 1, Name = "Mac 'n' Cheese", Author = "Jeremy", Source = "Imagination", Servings = "2", DateAddedUtc = new DateTime(2025, 3, 1)}
     );
 
     modelBuilder.Entity<Ingredient>().HasData(
@@ -46,6 +46,7 @@ public class RecipeContext : DbContext
         RecipeId = 1, 
         IngredientId = 1, 
         Amount = "500g", 
+        Notes = "Tasty cheese is yummiest"
         },
       new RecipeIngredient { 
         RecipeId = 1, 

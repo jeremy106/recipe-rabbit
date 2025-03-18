@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
@@ -31,7 +32,11 @@ namespace RecipeRabbit.Migrations
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    Name = table.Column<string>(type: "TEXT", nullable: true)
+                    Name = table.Column<string>(type: "TEXT", nullable: true),
+                    Author = table.Column<string>(type: "TEXT", nullable: true),
+                    Source = table.Column<string>(type: "TEXT", nullable: true),
+                    Servings = table.Column<string>(type: "TEXT", nullable: true),
+                    DateAddedUtc = table.Column<DateTime>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -96,15 +101,15 @@ namespace RecipeRabbit.Migrations
 
             migrationBuilder.InsertData(
                 table: "Recipes",
-                columns: new[] { "Id", "Name" },
-                values: new object[] { 1, "Mac 'n' Cheese" });
+                columns: new[] { "Id", "Author", "DateAddedUtc", "Name", "Servings", "Source" },
+                values: new object[] { 1, "Jeremy", new DateTime(2025, 3, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Mac 'n' Cheese", "2", "Imagination" });
 
             migrationBuilder.InsertData(
                 table: "RecipeIngredients",
                 columns: new[] { "IngredientId", "RecipeId", "Amount", "Notes" },
                 values: new object[,]
                 {
-                    { 1, 1, "500g", null },
+                    { 1, 1, "500g", "Tasty cheese is yummiest" },
                     { 2, 1, "1.5 cups", null }
                 });
 
