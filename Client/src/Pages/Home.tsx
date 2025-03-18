@@ -1,4 +1,4 @@
-import '../styles/App.css'
+import '../styles/App.scss'
 import { getRecipes } from '../api/recipes'
 import { useQuery } from '@tanstack/react-query'
 
