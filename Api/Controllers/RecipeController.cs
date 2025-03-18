@@ -25,17 +25,15 @@ namespace recipe_rabbit.Controllers
             _recipeService = recipeService;
         }
 
-        // GET: api/Recipe
+        // GET: api/Recipe - Retrieve list of all recipes
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Recipe>>> GetRecipes()
+        public async Task<ActionResult<IEnumerable<RecipeSummaryDto>>> GetRecipes()
         {
-            var recipes = await db.Recipes
-              .Include(r => r.Steps)
-              .Include(r => r.RecipeIngredients)
-              .ThenInclude(ri => ri.Ingredient)
-              .ToListAsync();
-            
-            var recipeDtos = recipes.Select(r => new RecipeDto
+          try
+          {
+            var recipes = await db.Recipes.ToListAsync();
+
+            var recipeDtos = recipes.Select(r => new RecipeSummaryDto
             {
               Id = r.Id,
               Name = r.Name,
@@ -43,28 +41,22 @@ namespace recipe_rabbit.Controllers
               Author = r.Author,
               Source = r.Source,
               Servings = r.Servings,
-              Steps = r.Steps
-                .Select(s => new StepDto
-                {
-                  Index = s.Index,
-                  Description = s.Description
-                }).ToList(),
-              Ingredients = r.RecipeIngredients
-                .Select(ri => new IngredientDto
-                {
-                  Name = ri.Ingredient?.Name,
-                  Amount = ri.Amount,
-                  Notes = ri.Notes
-                }).ToList()
-              }).ToList();
+            }).ToList();
 
             return Ok(recipeDtos);
+          }
+          catch
+          {
+            return StatusCode(500, "Something went wrong while retrieving recipes.");
+          }
         }
 
-        // GET: api/Recipe/5
+        // GET: api/Recipe/5 - Retrieve specific recipe with all details
         [HttpGet("{id}")]
         public async Task<ActionResult<Recipe>> GetRecipe(int id)
         {
+          try
+          {
             var recipe = await db.Recipes
               .Where(r => r.Id == id)
               .Include(r => r.Steps)
@@ -101,6 +93,11 @@ namespace recipe_rabbit.Controllers
             };
 
             return Ok(recipeDto);
+          }
+          catch
+          {
+            return StatusCode(500, "Something went wrong while retrieving the recipe");
+          }
         }
 
         // POST: api/Recipe
