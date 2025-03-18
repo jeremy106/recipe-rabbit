@@ -7,7 +7,7 @@ import Layout from "./Layout";
 const routes = createRoutesFromElements(
   <Route path="/" element={<Layout/>}>
     <Route index element={<Home/>}/>
-    <Route path="/recipe" element={<ViewRecipe/>}/>
+    <Route path="/recipe/:id" element={<ViewRecipe/>}/>
   </Route>
 )
 
