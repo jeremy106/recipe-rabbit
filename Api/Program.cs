@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using RecipeRabbit.Models;
+using RecipeRabbit.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
@@ -11,7 +12,10 @@ builder.Services.AddOpenApi();
 // Add Database context
 builder.Services.AddDbContext<RecipeContext>(opt => opt.UseSqlite(connectionString));
 
+// Add Recipe Service
+builder.Services.AddScoped<IRecipeService, RecipeService>();
 
+// Add CORS
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowReactApp",

@@ -7,13 +7,13 @@
 namespace RecipeRabbit.Migrations
 {
     /// <inheritdoc />
-    public partial class initialise : Migration
+    public partial class Init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Ingredient",
+                name: "Ingredients",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
@@ -22,7 +22,7 @@ namespace RecipeRabbit.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Ingredient", x => x.Id);
+                    table.PrimaryKey("PK_Ingredients", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -39,7 +39,7 @@ namespace RecipeRabbit.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "RecipeIngredient",
+                name: "RecipeIngredients",
                 columns: table => new
                 {
                     RecipeId = table.Column<int>(type: "INTEGER", nullable: false),
@@ -49,15 +49,15 @@ namespace RecipeRabbit.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_RecipeIngredient", x => new { x.RecipeId, x.IngredientId });
+                    table.PrimaryKey("PK_RecipeIngredients", x => new { x.RecipeId, x.IngredientId });
                     table.ForeignKey(
-                        name: "FK_RecipeIngredient_Ingredient_IngredientId",
+                        name: "FK_RecipeIngredients_Ingredients_IngredientId",
                         column: x => x.IngredientId,
-                        principalTable: "Ingredient",
+                        principalTable: "Ingredients",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_RecipeIngredient_Recipes_RecipeId",
+                        name: "FK_RecipeIngredients_Recipes_RecipeId",
                         column: x => x.RecipeId,
                         principalTable: "Recipes",
                         principalColumn: "Id",
@@ -65,7 +65,7 @@ namespace RecipeRabbit.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Step",
+                name: "Steps",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
@@ -76,9 +76,9 @@ namespace RecipeRabbit.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Step", x => x.Id);
+                    table.PrimaryKey("PK_Steps", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Step_Recipes_RecipeId",
+                        name: "FK_Steps_Recipes_RecipeId",
                         column: x => x.RecipeId,
                         principalTable: "Recipes",
                         principalColumn: "Id",
@@ -86,7 +86,7 @@ namespace RecipeRabbit.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "Ingredient",
+                table: "Ingredients",
                 columns: new[] { "Id", "Name" },
                 values: new object[,]
                 {
@@ -100,7 +100,7 @@ namespace RecipeRabbit.Migrations
                 values: new object[] { 1, "Mac 'n' Cheese" });
 
             migrationBuilder.InsertData(
-                table: "RecipeIngredient",
+                table: "RecipeIngredients",
                 columns: new[] { "IngredientId", "RecipeId", "Amount", "Notes" },
                 values: new object[,]
                 {
@@ -109,7 +109,7 @@ namespace RecipeRabbit.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "Step",
+                table: "Steps",
                 columns: new[] { "Id", "Description", "Index", "RecipeId" },
                 values: new object[,]
                 {
@@ -118,13 +118,13 @@ namespace RecipeRabbit.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_RecipeIngredient_IngredientId",
-                table: "RecipeIngredient",
+                name: "IX_RecipeIngredients_IngredientId",
+                table: "RecipeIngredients",
                 column: "IngredientId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Step_RecipeId",
-                table: "Step",
+                name: "IX_Steps_RecipeId",
+                table: "Steps",
                 column: "RecipeId");
         }
 
@@ -132,13 +132,13 @@ namespace RecipeRabbit.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "RecipeIngredient");
+                name: "RecipeIngredients");
 
             migrationBuilder.DropTable(
-                name: "Step");
+                name: "Steps");
 
             migrationBuilder.DropTable(
-                name: "Ingredient");
+                name: "Ingredients");
 
             migrationBuilder.DropTable(
                 name: "Recipes");

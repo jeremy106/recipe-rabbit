@@ -2,11 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Google.Rpc;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using RecipeRabbit.Models;
 using RecipeRabbit.Models.DTOs;
+using RecipeRabbit.Services;
 
 namespace recipe_rabbit.Controllers
 {
@@ -15,10 +17,12 @@ namespace recipe_rabbit.Controllers
     public class RecipeController : ControllerBase
     {
         private readonly RecipeContext db;
+        private readonly IRecipeService _recipeService;
 
-        public RecipeController(RecipeContext context)
+        public RecipeController(RecipeContext context, IRecipeService recipeService)
         {
             db = context;
+            _recipeService = recipeService;
         }
 
         // GET: api/Recipe
@@ -44,8 +48,7 @@ namespace recipe_rabbit.Controllers
               Ingredients = r.RecipeIngredients
                 .Select(ri => new IngredientDto
                 {
-                  Id = ri.IngredientId,
-                  Name = ri.Ingredient.Name,
+                  Name = ri.Ingredient?.Name,
                   Amount = ri.Amount,
                 }).ToList()
               }).ToList();
@@ -82,8 +85,7 @@ namespace recipe_rabbit.Controllers
               Ingredients = recipe.RecipeIngredients
                 .Select(ri => new IngredientDto
                 {
-                  Id = ri.IngredientId,
-                  Name = ri.Ingredient.Name,
+                  Name = ri.Ingredient?.Name,
                   Amount = ri.Amount
                 }).ToList()
             };
@@ -91,46 +93,26 @@ namespace recipe_rabbit.Controllers
             return Ok(recipeDto);
         }
 
-        // PUT: api/Recipe/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutRecipe(int id, Recipe recipe)
-        {
-            if (id != recipe.Id)
-            {
-                return BadRequest();
-            }
-
-            db.Entry(recipe).State = EntityState.Modified;
-
-            try
-            {
-                await db.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!RecipeExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
-        }
-
         // POST: api/Recipe
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Recipe>> PostRecipe(Recipe recipe)
+        public async Task<IActionResult> CreateRecipe([FromBody] RecipeInputDto recipeInput)
         {
-            db.Recipes.Add(recipe);
-            await db.SaveChangesAsync();
+          if (recipeInput == null)
+          {
+            return BadRequest("Recipe data is invalid");
+          }
 
-            return CreatedAtAction(nameof(GetRecipe), new { id = recipe.Id }, recipe);
+          try
+          {
+              var createdRecipe = await _recipeService.CreateRecipe(recipeInput);
+              return CreatedAtAction(nameof(GetRecipe), new { id = createdRecipe.Id }, createdRecipe);
+          }
+          catch
+          {
+              // Log the exception
+              return StatusCode(500, "An error occurred while creating the recipe.");
+          }
+
         }
 
         // DELETE: api/Recipe/5
@@ -148,6 +130,50 @@ namespace recipe_rabbit.Controllers
 
             return NoContent();
         }
+
+        // // PUT: api/Recipe/5
+        // // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        // [HttpPut("{id}")]
+        // public async Task<IActionResult> PutRecipe(int id, Recipe recipe)
+        // {
+        //     if (id != recipe.Id)
+        //     {
+        //         return BadRequest();
+        //     }
+
+        //     db.Entry(recipe).State = EntityState.Modified;
+
+        //     try
+        //     {
+        //         await db.SaveChangesAsync();
+        //     }
+        //     catch (DbUpdateConcurrencyException)
+        //     {
+        //         if (!RecipeExists(id))
+        //         {
+        //             return NotFound();
+        //         }
+        //         else
+        //         {
+        //             throw;
+        //         }
+        //     }
+
+        //     return NoContent();
+        // }
+
+        // POST: api/Recipe
+        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        // [HttpPost]
+        // public async Task<ActionResult<Recipe>> CreateRecipe(Recipe recipe)
+        // {
+        //     db.Recipes.Add(recipe);
+        //     await db.SaveChangesAsync();
+
+        //     return CreatedAtAction(nameof(GetRecipe), new { id = recipe.Id }, recipe);
+        // }
+
+
 
         private bool RecipeExists(int id)
         {

@@ -28,7 +28,7 @@ namespace RecipeRabbit.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Ingredient");
+                    b.ToTable("Ingredients");
 
                     b.HasData(
                         new
@@ -83,7 +83,7 @@ namespace RecipeRabbit.Migrations
 
                     b.HasIndex("IngredientId");
 
-                    b.ToTable("RecipeIngredient");
+                    b.ToTable("RecipeIngredients");
 
                     b.HasData(
                         new
@@ -120,7 +120,7 @@ namespace RecipeRabbit.Migrations
 
                     b.HasIndex("RecipeId");
 
-                    b.ToTable("Step");
+                    b.ToTable("Steps");
 
                     b.HasData(
                         new

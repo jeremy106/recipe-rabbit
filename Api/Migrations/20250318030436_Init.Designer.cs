@@ -10,8 +10,8 @@ using RecipeRabbit.Models;
 namespace RecipeRabbit.Migrations
 {
     [DbContext(typeof(RecipeContext))]
-    [Migration("20250317224206_initialise")]
-    partial class initialise
+    [Migration("20250318030436_Init")]
+    partial class Init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -31,7 +31,7 @@ namespace RecipeRabbit.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Ingredient");
+                    b.ToTable("Ingredients");
 
                     b.HasData(
                         new
@@ -86,7 +86,7 @@ namespace RecipeRabbit.Migrations
 
                     b.HasIndex("IngredientId");
 
-                    b.ToTable("RecipeIngredient");
+                    b.ToTable("RecipeIngredients");
 
                     b.HasData(
                         new
@@ -123,7 +123,7 @@ namespace RecipeRabbit.Migrations
 
                     b.HasIndex("RecipeId");
 
-                    b.ToTable("Step");
+                    b.ToTable("Steps");
 
                     b.HasData(
                         new

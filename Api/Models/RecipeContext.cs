@@ -8,6 +8,9 @@ public class RecipeContext : DbContext
 {
   public RecipeContext(DbContextOptions<RecipeContext> options) : base(options) {}
   public DbSet<Recipe> Recipes { get; set; } = null!;
+  public DbSet<Step> Steps { get; set; } = null!;
+  public DbSet<Ingredient> Ingredients { get; set; } = null!;
+  public DbSet<RecipeIngredient> RecipeIngredients { get; set; } = null!;
 
   protected override void OnModelCreating(ModelBuilder modelBuilder)
   {
