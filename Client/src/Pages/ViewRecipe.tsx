@@ -34,6 +34,8 @@ export default function ViewRecipe() {
         <p><span className="emphasis">Author:</span> {recipe.author ?? "unknown"}</p>
         <p><span className="emphasis">Source:</span> {recipe.source ?? "unknown"}</p>
         <p><span className="emphasis">Serves:</span> {recipe.servings ?? "unknown"}</p>
+        <p><span className="emphasis">Prep Time:</span> {recipe.prepTime ?? "unknown"}</p>
+        <p><span className="emphasis">Cooking Time:</span> {recipe.cookTime ?? "unknown"}</p>
       </div>
       <div className={styles["ingredient-list"]}>
         <h3>Ingredients:</h3>

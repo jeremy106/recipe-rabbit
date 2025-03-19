@@ -33,7 +33,12 @@ export default function Home() {
             <Link to={`/recipe/${recipe.id}`}>
               <div key={recipe.id} className={styles['recipe-list-item']}>
                 <div className={styles['recipe-name']}>{recipe.name}</div>
-                <div className={styles['recipe-info']}>Serves: {recipe.servings ? recipe.servings : '?'}</div>
+                <div className={styles['recipe-info']}>
+                  <p>Prep Time: {recipe.prepTime ?? '?'}</p>
+                  <p>Cooking Time: {recipe.cookTime ?? '?'}</p>
+                  <p>Serves: {recipe.servings ?? '?'}</p>
+                </div>
+
               </div>
             </Link>
           )

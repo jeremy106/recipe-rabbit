@@ -4,6 +4,8 @@ export interface RecipeSummary {
   servings?: string
   author?: string
   source?: string
+  prepTime?: string
+  cookTime?: string
   dateAddedUtc: string
 }
 
