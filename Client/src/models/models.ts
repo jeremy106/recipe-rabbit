@@ -3,6 +3,7 @@ export interface RecipeSummary {
   name: string
   servings?: string
   author?: string
+  source?: string
   dateAddedUtc: string
 }
 

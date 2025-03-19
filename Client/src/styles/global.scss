@@ -1,0 +1,74 @@
+:root {
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  
+  // Colours
+  --background-dark: #242424;
+  --background-accent: rgb(255, 220, 173);
+
+  --primary-text:  rgba(255, 255, 255, 0.87);
+  --secondary-text: #242424;
+
+  --hover-color: aquamarine;
+  
+}
+
+body {
+  color: var(--primary-text);
+  background-color: var(--background-dark);
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  width: 100vw;
+  text-align: center;
+}
+
+.m-container {
+  margin: 0 auto;
+  width: clamp(320px, 80vw, 600px);
+}
+
+a {
+  all: unset;
+  font-weight: 500;
+  text-decoration: inherit;
+
+  :hover {
+    cursor: pointer;  
+  } 
+}
+
+h1 {
+  font-size: 3.2em;
+  line-height: 1.1;
+}
+
+button {
+  border-radius: 8px;
+  border: 2px solid transparent;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  cursor: pointer;
+  transition: background-color 0.25s;
+  
+  &:hover {
+    background-color: var(--hover-color);
+  }
+
+  :focus,
+  :focus-visible {
+  outline: 4px auto -webkit-focus-ring-color;
+  }
+}
+
+.emphasis {
+  font-weight: bold;
+}

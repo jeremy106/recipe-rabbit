@@ -1,4 +1,4 @@
-import '../styles/Home.scss'
+import styles from '../styles/Home.module.scss'
 import { getRecipes } from '../api/recipes'
 import { useQuery } from '@tanstack/react-query'
 import { RecipeSummary } from '../models/models'
@@ -18,24 +18,28 @@ export default function Home() {
     return <p>Error</p>
   }
 
+  function handleClick() {
+    alert('Coming soon!');
+  };
+
   return (
     <>
       <h1>Recipe Rabbit</h1>
       <p>
         Select a recipe to start cooking
       </p>
-      <div className="recipeList">
-        {recipes.map((recipe : RecipeSummary) => (
-          <Link to={`/recipe/${recipe.id}`}>
-            <div key={recipe.id} className="recipeListItem">
-              <div className='recipe-name'>{recipe.name}</div>
-              <div className='recipe-info'>Serves: {recipe.servings ? recipe.servings : '?'}</div>
-            </div>
-          </Link>
-        )
-          )}
-      </div>
-      <button>Add a recipe</button>
+        <div className={styles['recipe-list']}>
+          {recipes.map((recipe : RecipeSummary) => (
+            <Link to={`/recipe/${recipe.id}`}>
+              <div key={recipe.id} className={styles['recipe-list-item']}>
+                <div className={styles['recipe-name']}>{recipe.name}</div>
+                <div className={styles['recipe-info']}>Serves: {recipe.servings ? recipe.servings : '?'}</div>
+              </div>
+            </Link>
+          )
+        )}
+        <button onClick={handleClick}>Add a recipe</button>
+        </div>
     </>
   )
 }
