@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
 
-namespace RecipeRabbit.Migrations
+namespace RecipeRabbit.Data.Migrations
 {
     /// <inheritdoc />
     public partial class Init : Migration
@@ -32,10 +32,12 @@ namespace RecipeRabbit.Migrations
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    Name = table.Column<string>(type: "TEXT", nullable: true),
+                    Name = table.Column<string>(type: "TEXT", nullable: false),
                     Author = table.Column<string>(type: "TEXT", nullable: true),
                     Source = table.Column<string>(type: "TEXT", nullable: true),
                     Servings = table.Column<string>(type: "TEXT", nullable: true),
+                    CookTime = table.Column<string>(type: "TEXT", nullable: true),
+                    PrepTime = table.Column<string>(type: "TEXT", nullable: true),
                     DateAddedUtc = table.Column<DateTime>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
@@ -101,8 +103,8 @@ namespace RecipeRabbit.Migrations
 
             migrationBuilder.InsertData(
                 table: "Recipes",
-                columns: new[] { "Id", "Author", "DateAddedUtc", "Name", "Servings", "Source" },
-                values: new object[] { 1, "Jeremy", new DateTime(2025, 3, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Mac 'n' Cheese", "2", "Imagination" });
+                columns: new[] { "Id", "Author", "CookTime", "DateAddedUtc", "Name", "PrepTime", "Servings", "Source" },
+                values: new object[] { 1, "Jeremy", "20 min", new DateTime(2025, 3, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Mac 'n' Cheese", "15 min", "2", "Imagination" });
 
             migrationBuilder.InsertData(
                 table: "RecipeIngredients",

@@ -7,7 +7,7 @@ using RecipeRabbit.Models;
 
 #nullable disable
 
-namespace RecipeRabbit.Migrations
+namespace RecipeRabbit.Data.Migrations
 {
     [DbContext(typeof(RecipeContext))]
     partial class RecipeContextModelSnapshot : ModelSnapshot
@@ -53,10 +53,17 @@ namespace RecipeRabbit.Migrations
                     b.Property<string>("Author")
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("CookTime")
+                        .HasColumnType("TEXT");
+
                     b.Property<DateTime>("DateAddedUtc")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("PrepTime")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Servings")
@@ -74,8 +81,10 @@ namespace RecipeRabbit.Migrations
                         {
                             Id = 1,
                             Author = "Jeremy",
+                            CookTime = "20 min",
                             DateAddedUtc = new DateTime(2025, 3, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "Mac 'n' Cheese",
+                            PrepTime = "15 min",
                             Servings = "2",
                             Source = "Imagination"
                         });

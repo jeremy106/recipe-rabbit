@@ -7,5 +7,7 @@ public class RecipeSummaryDto
   public string? Author { get; set; }
   public string? Source { get; set; }
   public string? Servings { get; set; }
+  public string? PrepTime { get; set; }
+  public string? CookTime { get; set; }
   public DateTime DateAddedUtc { get; set; }
 }

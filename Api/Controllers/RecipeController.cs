@@ -41,6 +41,8 @@ namespace recipe_rabbit.Controllers
               Author = r.Author,
               Source = r.Source,
               Servings = r.Servings,
+              PrepTime = r.PrepTime,
+              CookTime = r.CookTime
             }).ToList();
 
             return Ok(recipeDtos);
@@ -77,6 +79,8 @@ namespace recipe_rabbit.Controllers
               Author = recipe.Author,
               Source = recipe.Source,
               Servings = recipe.Servings,
+              PrepTime = recipe.PrepTime,
+              CookTime = recipe.CookTime,
               Steps = recipe.Steps
                 .Select(s => new StepDto
                 {
