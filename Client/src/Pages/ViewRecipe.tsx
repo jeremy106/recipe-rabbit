@@ -1,12 +1,13 @@
 import { useQuery } from "@tanstack/react-query"
 import { getRecipeById } from "../api/recipes"
-import { useParams } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 
 import styles from '../styles/ViewRecipe.module.scss'
 
 export default function ViewRecipe() {
 
   const { id: recipeId } = useParams()
+  const navigate = useNavigate();
 
   const { data: recipe, isPending, isError } = useQuery({
     queryKey: ['recipe', recipeId],
@@ -22,7 +23,7 @@ export default function ViewRecipe() {
   }
 
   function handleClick(){
-    alert("Coming soon...")
+    navigate('edit')
   }
 
 

@@ -2,13 +2,14 @@ import styles from '../styles/Home.module.scss'
 import { getRecipes } from '../api/recipes'
 import { useQuery } from '@tanstack/react-query'
 import { RecipeSummary } from '../models/models'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 export default function Home() {
   const { data: recipes, isPending, isError } = useQuery({
     queryKey: ['recipeList'],
     queryFn: () => getRecipes(),
   })
+  const navigate = useNavigate();
 
   if (isPending) {
     return <p>Loading</p>
@@ -18,9 +19,9 @@ export default function Home() {
     return <p>Error</p>
   }
 
-  function handleClick() {
-    alert('Coming soon!');
-  };
+  function handleClick(){
+    navigate('recipe/add')
+  }
 
   return (
     <>
