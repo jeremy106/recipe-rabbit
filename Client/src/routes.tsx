@@ -1,10 +1,10 @@
 import { createRoutesFromElements, Route } from "react-router-dom";
 
-import Home from "./Pages/Home";
-import ViewRecipe from "./Pages/ViewRecipe";
+import Home from "./pages/Home";
+import ViewRecipe from "./pages/ViewRecipe";
 import Layout from "./Layout";
-import AddRecipe from "./Pages/AddRecipe";
-import EditRecipe from "./Pages/EditRecipe";
+import AddRecipe from "./pages/AddRecipe";
+import EditRecipe from "./pages/EditRecipe";
 
 const routes = createRoutesFromElements(
   <Route path="/" element={<Layout/>}>
