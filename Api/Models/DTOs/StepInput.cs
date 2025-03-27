@@ -4,6 +4,6 @@ namespace RecipeRabbit.Models.DTOs;
 
 public class StepInputDto
 {
-  public int Index { get; set; }
+  public int StepOrder { get; set; }
   public required string Description { get; set; }
 }

@@ -51,8 +51,8 @@ export default function ViewRecipe() {
       <div className={styles['steps-container']}>
         {
           recipe.steps.map((step) => (
-            <p key={step.index}>
-              <span className="emphasis">Step {step.index+1}: </span>
+            <p key={step.stepOrder}>
+              <span className="emphasis">Step {step.stepOrder+1}: </span>
               {step.description}
             </p>
           ))

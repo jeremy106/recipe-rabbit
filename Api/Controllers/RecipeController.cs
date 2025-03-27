@@ -84,7 +84,7 @@ namespace recipe_rabbit.Controllers
               Steps = recipe.Steps
                 .Select(s => new StepDto
                 {
-                  Index = s.Index,
+                  StepOrder = s.StepOrder,
                   Description = s.Description
                 }).ToList(),
               Ingredients = recipe.RecipeIngredients
