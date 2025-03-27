@@ -78,7 +78,7 @@ namespace RecipeRabbit.Data.Migrations
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     RecipeId = table.Column<int>(type: "INTEGER", nullable: false),
-                    Index = table.Column<int>(type: "INTEGER", nullable: false),
+                    StepOrder = table.Column<int>(type: "INTEGER", nullable: false),
                     Description = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
@@ -117,10 +117,10 @@ namespace RecipeRabbit.Data.Migrations
 
             migrationBuilder.InsertData(
                 table: "Steps",
-                columns: new[] { "Id", "Description", "Index", "RecipeId" },
+                columns: new[] { "Id", "Description", "RecipeId", "StepOrder" },
                 values: new object[,]
                 {
-                    { 1, "Cook macaroni", 0, 1 },
+                    { 1, "Cook macaroni", 1, 0 },
                     { 2, "Add Cheese", 1, 1 }
                 });
 

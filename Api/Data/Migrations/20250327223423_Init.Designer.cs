@@ -11,7 +11,7 @@ using RecipeRabbit.Models;
 namespace RecipeRabbit.Data.Migrations
 {
     [DbContext(typeof(RecipeContext))]
-    [Migration("20250319032427_Init")]
+    [Migration("20250327223423_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -140,10 +140,10 @@ namespace RecipeRabbit.Data.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("Index")
+                    b.Property<int>("RecipeId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("RecipeId")
+                    b.Property<int>("StepOrder")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
@@ -157,15 +157,15 @@ namespace RecipeRabbit.Data.Migrations
                         {
                             Id = 1,
                             Description = "Cook macaroni",
-                            Index = 0,
-                            RecipeId = 1
+                            RecipeId = 1,
+                            StepOrder = 0
                         },
                         new
                         {
                             Id = 2,
                             Description = "Add Cheese",
-                            Index = 1,
-                            RecipeId = 1
+                            RecipeId = 1,
+                            StepOrder = 1
                         });
                 });
 

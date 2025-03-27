@@ -43,7 +43,7 @@ public class RecipeService : IRecipeService
         {
           var step = new Step
           {
-            Index = stepInput.Index,
+            StepOrder = stepInput.StepOrder,
             Description = stepInput.Description,
             RecipeId = recipe.Id
           };

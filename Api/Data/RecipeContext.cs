@@ -67,13 +67,13 @@ public class RecipeContext : DbContext
       new Step {
         Id = 1,
         RecipeId = 1,
-        Index = 0, 
+        StepOrder = 0, 
         Description = "Cook macaroni"
       },
       new Step {
         Id = 2,
         RecipeId = 1,
-        Index = 1, 
+        StepOrder = 1, 
         Description = "Add Cheese"
       }
     );

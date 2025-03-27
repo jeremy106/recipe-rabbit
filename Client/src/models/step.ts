@@ -1,4 +1,4 @@
 export interface Step {
-  index: number
+  stepOrder: number
   description: string
 }
