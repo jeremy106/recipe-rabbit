@@ -32,7 +32,9 @@ public class RecipeService : IRecipeService
           DateAddedUtc = DateTime.Now,
           Author = recipeInput.Author,
           Source = recipeInput.Source,
-          Servings = recipeInput.Servings
+          Servings = recipeInput.Servings,
+          CookTime = recipeInput.CookTime,
+          PrepTime = recipeInput.PrepTime,
         };
 
         db.Recipes.Add(recipe);
