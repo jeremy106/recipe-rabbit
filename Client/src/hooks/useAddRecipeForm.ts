@@ -3,9 +3,11 @@ import { RecipeData } from "../models/recipe";
 import { Ingredient } from "../models/ingredient";
 import { Step } from "../models/step";
 import request from "superagent"
+import { Navigate, useNavigate } from "react-router-dom";
 
 export default function useAddRecipeForm() {
 
+  const navigate = useNavigate()
   const [recipe, setRecipe] = useState({
     name: '',
     author: '',
@@ -87,6 +89,8 @@ export default function useAddRecipeForm() {
         .post('http://localhost:5107/api/Recipe/')
         .set('Content-Type', 'application/json')
         .send(recipe)
+        
+      navigate('/')
       return response.statusCode
     } catch (err) {
       console.error("Error creating recipe:", err)
