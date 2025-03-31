@@ -44,7 +44,7 @@ export default function Home() {
             </div>
           </Link>
         ))}
-        <button onClick={handleClick}>Add a recipe</button>
+        <button onClick={handleClick} className='button-primary'>Add a recipe</button>
       </div>
     </>
   )

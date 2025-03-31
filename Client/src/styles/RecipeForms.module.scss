@@ -1,0 +1,47 @@
+.form-body {
+  // border: 2px solid red;
+  text-align: left;
+
+  textarea {
+    width: 100%;
+    resize: vertical;
+  }
+
+  h3 {
+    margin-top: 3rem;
+    margin-bottom: 0.5rem;
+  }
+}
+
+.submit {
+  margin: 2rem 0;
+  text-align: center
+}
+
+.item-row {
+  display: flex;
+  padding: 2px;
+
+  :last-child {
+    padding: 0 0.5rem 0 0.5rem;
+    margin-left: auto;
+  }
+}
+
+.recipe-info-container {
+  // border: 1px solid white;
+}
+
+.recipe-info {
+  // display: grid;
+  // grid-template-columns: auto 1fr;
+  // align-items: center;
+  // gap: 0.5rem;
+  // margin-bottom: 0.5rem;
+
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 5px;
+
+
+}
