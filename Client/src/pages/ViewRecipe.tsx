@@ -7,16 +7,6 @@ export default function ViewRecipe() {
   const { id: recipeId } = useParams()
   const navigate = useNavigate()
   const { recipe } = useRecipe(String(recipeId))
-  
-
-  // const {
-  //   data: recipe,
-  //   isPending,
-  //   isError,
-  // } = useQuery({
-  //   queryKey: ['recipe', recipeId],
-  //   queryFn: () => getRecipeById(String(recipeId)),
-  // })
 
   if (recipe.isPending) {
     return <p>Loading</p>
@@ -60,14 +50,14 @@ export default function ViewRecipe() {
         </div>
         <div className={styles['ingredient-list']}>
           <h3>Ingredients:</h3>
+          <ul>
           {recipe.data.ingredients.map((ingredient) => (
-            <ul key={ingredient.name}>
-              <li>
+              <li key={ingredient.name}>
                 {ingredient.amount} {ingredient.name}{' '}
                 {ingredient.notes && `(${ingredient.notes})`}
               </li>
-            </ul>
           ))}
+          </ul>
         </div>
 
         <div className={styles['steps-container']}>

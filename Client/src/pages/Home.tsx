@@ -33,8 +33,8 @@ export default function Home() {
       <p>Select a recipe to start cooking</p>
       <div className={styles['recipe-list']}>
         {recipes.map((recipe: RecipeSummary) => (
-          <Link to={`/recipe/${recipe.id}`}>
-            <div key={recipe.id} className={styles['recipe-list-item']}>
+          <Link to={`/recipe/${recipe.id}`} key={recipe.id}>
+            <div className={styles['recipe-list-item']}>
               <div className={styles['recipe-name']}>{recipe.name}</div>
               <div className={styles['recipe-info']}>
                 <p>Prep Time: {recipe.prepTime ?? '?'}</p>
