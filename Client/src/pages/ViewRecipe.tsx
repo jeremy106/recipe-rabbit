@@ -35,29 +35,27 @@ export default function ViewRecipe() {
 
   return (
     <>
-      <h1>{recipe.name}</h1>
+      <div className="m-container">
+        <h2>{recipe.name}</h2>
+      </div>
       <div className="m-container">
         <div className={styles['recipe-info']}>
-          <p>
-            <span className="emphasis">Author:</span>{' '}
-            {recipe.author ?? 'unknown'}
-          </p>
-          <p>
-            <span className="emphasis">Source:</span>{' '}
-            {recipe.source ?? 'unknown'}
-          </p>
-          <p>
-            <span className="emphasis">Serves:</span>{' '}
-            {recipe.servings ?? 'unknown'}
-          </p>
-          <p>
-            <span className="emphasis">Prep Time:</span>{' '}
-            {recipe.prepTime ?? 'unknown'}
-          </p>
-          <p>
-            <span className="emphasis">Cooking Time:</span>{' '}
-            {recipe.cookTime ?? 'unknown'}
-          </p>
+
+          {recipe.servings && 
+            <p>
+              <span className="emphasis">Serves: </span>{recipe.servings}
+            </p>
+          }
+          {recipe.prepTime && 
+            <p>
+              <span className="emphasis">Preparation Time: </span>{recipe.prepTime}
+            </p>
+          }
+          {recipe.cookTime && 
+            <p>
+              <span className="emphasis">Cooking Time: </span>{recipe.cookTime}
+            </p>
+          }
         </div>
         <div className={styles['ingredient-list']}>
           <h3>Ingredients:</h3>
@@ -70,13 +68,27 @@ export default function ViewRecipe() {
             </ul>
           ))}
         </div>
+
         <div className={styles['steps-container']}>
-          {recipe.steps.map((step) => (
-            <p key={step.stepOrder}>
-              <span className="emphasis">Step {step.stepOrder + 1}: </span>
-              {step.description}
-            </p>
-          ))}
+          <h3 className='left-align'>
+            Instructions
+          </h3>
+            {recipe.steps.map((step) => (
+              <p key={step.stepOrder}>
+                <span className="emphasis">{step.stepOrder}. </span>
+                {step.description}
+              </p>
+            ))}
+        </div>
+        <div className={styles['recipe-info']}>
+          <p>
+            <span className="emphasis">Author:</span>{' '}
+            {recipe.author ? recipe.author : '-'}
+          </p>
+          <p>
+            <span className="emphasis">Source:</span>{' '}
+            {recipe.source ? recipe.source : '-'}
+          </p>
         </div>
         <button onClick={handleEdit}>Edit this recipe</button>
         <button onClick={handleDelete}>Delete this recipe</button>
