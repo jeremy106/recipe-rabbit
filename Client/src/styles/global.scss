@@ -74,6 +74,13 @@ h2 {
   }
 }
 
+.button-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+}
+
 .emphasis {
   font-weight: bold;
 }

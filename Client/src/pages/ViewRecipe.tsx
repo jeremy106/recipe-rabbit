@@ -2,14 +2,18 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { useRecipe } from '../hooks/useRecipe'
 
 import styles from '../styles/ViewRecipe.module.scss'
-import React from 'react'
+import ConfirmModal from '../components/ConfirmModal'
 
 export default function ViewRecipe() {
+
   const { id: recipeId } = useParams()
   const navigate = useNavigate()
   const { 
     recipe,
-    deleteRecipe
+    deleteRecipe,
+    confirmationIsOpen,
+    openConfirmation,
+    closeConfirmation
    } = useRecipe(String(recipeId))
 
   if (recipe.isPending) {
@@ -24,9 +28,17 @@ export default function ViewRecipe() {
     navigate('edit')
   }
 
-  async function handleDelete(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
-    e.preventDefault()
+  // async function handleDelete(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
+  //   e.preventDefault()
     
+  //   if (deleteRecipe.isPending) {
+  //     return
+  //   }
+  //   await deleteRecipe.mutateAsync()
+
+  //   navigate('/')
+  // }
+  async function handleDelete() {
     if (deleteRecipe.isPending) {
       return
     }
@@ -92,10 +104,20 @@ export default function ViewRecipe() {
             {recipe.data.source ? recipe.data.source : '-'}
           </p>
         </div>
-        <div className={styles['button-container']}>
+        <div className='button-container'>
           <button className="button-primary" onClick={handleEdit}>Edit this recipe</button>
-          <button className="button-primary" onClick={(e) => handleDelete(e)}>Delete this recipe</button>
+          <button className="button-primary" onClick={() => openConfirmation()}>Delete this recipe</button>
+          {/* <button className="button-primary" onClick={(e) => handleDelete(e)}>Delete this recipe</button> */}
         </div>
+        {
+          confirmationIsOpen &&
+            <ConfirmModal 
+              isOpen={confirmationIsOpen} 
+              message='Are you sure you want to delete this recipe?'
+              onConfirm={(e) => handleDelete(e)}
+              onCancel={closeConfirmation}
+              />
+        }
       </div>
     </>
   )
