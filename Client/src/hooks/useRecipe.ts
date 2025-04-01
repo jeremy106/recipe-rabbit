@@ -15,7 +15,6 @@ export function useRecipe(id: string){
   const recipe = useQuery({
       queryKey: ['recipe', id],
       queryFn: async(): Promise<Recipe> => {
-        console.log(recipeUrl+id)
         const response = await request.get(recipeUrl + id)
         return response.body
       }
