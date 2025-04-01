@@ -92,8 +92,10 @@ export default function ViewRecipe() {
             {recipe.data.source ? recipe.data.source : '-'}
           </p>
         </div>
-        <button onClick={handleEdit}>Edit this recipe</button>
-        <button onClick={(e) => handleDelete(e)}>Delete this recipe</button>
+        <div className={styles['button-container']}>
+          <button className="button-primary" onClick={handleEdit}>Edit this recipe</button>
+          <button className="button-primary" onClick={(e) => handleDelete(e)}>Delete this recipe</button>
+        </div>
       </div>
     </>
   )
