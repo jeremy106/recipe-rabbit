@@ -2,11 +2,15 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { useRecipe } from '../hooks/useRecipe'
 
 import styles from '../styles/ViewRecipe.module.scss'
+import React from 'react'
 
 export default function ViewRecipe() {
   const { id: recipeId } = useParams()
   const navigate = useNavigate()
-  const { recipe } = useRecipe(String(recipeId))
+  const { 
+    recipe,
+    deleteRecipe
+   } = useRecipe(String(recipeId))
 
   if (recipe.isPending) {
     return <p>Loading</p>
@@ -20,8 +24,15 @@ export default function ViewRecipe() {
     navigate('edit')
   }
 
-  function handleDelete() {
-    alert('Coming soon')
+  async function handleDelete(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
+    e.preventDefault()
+    
+    if (deleteRecipe.isPending) {
+      return
+    }
+    await deleteRecipe.mutateAsync()
+
+    navigate('/')
   }
 
   return (
@@ -82,7 +93,7 @@ export default function ViewRecipe() {
           </p>
         </div>
         <button onClick={handleEdit}>Edit this recipe</button>
-        <button onClick={handleDelete}>Delete this recipe</button>
+        <button onClick={(e) => handleDelete(e)}>Delete this recipe</button>
       </div>
     </>
   )
