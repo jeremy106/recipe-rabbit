@@ -1,27 +1,28 @@
-import { useQuery } from '@tanstack/react-query'
-import { getRecipeById } from '../api/recipes'
 import { useNavigate, useParams } from 'react-router-dom'
+import { useRecipe } from '../hooks/useRecipe'
 
 import styles from '../styles/ViewRecipe.module.scss'
 
 export default function ViewRecipe() {
   const { id: recipeId } = useParams()
   const navigate = useNavigate()
+  const { recipe } = useRecipe(String(recipeId))
+  
 
-  const {
-    data: recipe,
-    isPending,
-    isError,
-  } = useQuery({
-    queryKey: ['recipe', recipeId],
-    queryFn: () => getRecipeById(String(recipeId)),
-  })
+  // const {
+  //   data: recipe,
+  //   isPending,
+  //   isError,
+  // } = useQuery({
+  //   queryKey: ['recipe', recipeId],
+  //   queryFn: () => getRecipeById(String(recipeId)),
+  // })
 
-  if (isPending) {
+  if (recipe.isPending) {
     return <p>Loading</p>
   }
 
-  if (isError) {
+  if (recipe.isError) {
     return <p>Error</p>
   }
 
@@ -36,30 +37,30 @@ export default function ViewRecipe() {
   return (
     <>
       <div className="m-container">
-        <h2>{recipe.name}</h2>
+        <h2>{recipe.data.name}</h2>
       </div>
       <div className="m-container">
         <div className={styles['recipe-info']}>
 
-          {recipe.servings && 
+          {recipe.data.servings && 
             <p>
-              <span className="emphasis">Serves: </span>{recipe.servings}
+              <span className="emphasis">Serves: </span>{recipe.data.servings}
             </p>
           }
-          {recipe.prepTime && 
+          {recipe.data.prepTime && 
             <p>
-              <span className="emphasis">Preparation Time: </span>{recipe.prepTime}
+              <span className="emphasis">Preparation Time: </span>{recipe.data.prepTime}
             </p>
           }
-          {recipe.cookTime && 
+          {recipe.data.cookTime && 
             <p>
-              <span className="emphasis">Cooking Time: </span>{recipe.cookTime}
+              <span className="emphasis">Cooking Time: </span>{recipe.data.cookTime}
             </p>
           }
         </div>
         <div className={styles['ingredient-list']}>
           <h3>Ingredients:</h3>
-          {recipe.ingredients.map((ingredient) => (
+          {recipe.data.ingredients.map((ingredient) => (
             <ul key={ingredient.name}>
               <li>
                 {ingredient.amount} {ingredient.name}{' '}
@@ -73,7 +74,7 @@ export default function ViewRecipe() {
           <h3 className='left-align'>
             Instructions
           </h3>
-            {recipe.steps.map((step) => (
+            {recipe.data.steps.map((step) => (
               <p key={step.stepOrder}>
                 <span className="emphasis">{step.stepOrder}. </span>
                 {step.description}
@@ -83,11 +84,11 @@ export default function ViewRecipe() {
         <div className={styles['recipe-info']}>
           <p>
             <span className="emphasis">Author:</span>{' '}
-            {recipe.author ? recipe.author : '-'}
+            {recipe.data.author ? recipe.data.author : '-'}
           </p>
           <p>
             <span className="emphasis">Source:</span>{' '}
-            {recipe.source ? recipe.source : '-'}
+            {recipe.data.source ? recipe.data.source : '-'}
           </p>
         </div>
         <button onClick={handleEdit}>Edit this recipe</button>
