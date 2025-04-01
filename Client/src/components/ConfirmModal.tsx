@@ -5,10 +5,12 @@ interface ConfirmModalProps {
   isOpen: boolean
   onConfirm: () => void
   onCancel: () => void
-  message: string
+  message: string,
+  confirmLabel?: string,
+  cancelLabel?: string
 }
 
- function ConfirmModal({isOpen, onConfirm, onCancel, message}:ConfirmModalProps) {
+ function ConfirmModal({isOpen, onConfirm, onCancel, message, confirmLabel, cancelLabel}:ConfirmModalProps) {
 
   if(!isOpen){
     return <>not open</>
@@ -19,13 +21,12 @@ interface ConfirmModalProps {
         <h3>{message}</h3>
         <p>This action cannot be undone...</p>
         <div className="button-container">
-          <button className='button-primary' onClick={()=>onConfirm()}>Yes</button>
-          <button className='button-primary' onClick={()=>onCancel()}>Cancel</button>
+          <button className='button-primary' onClick={()=>onConfirm()}>{confirmLabel ?? 'Ok'}</button>
+          <button className='button-primary' onClick={()=>onCancel()}>{cancelLabel ?? 'Cancel'}</button>
         </div>
       </div>
     </div>
   )
 }
-
 
 export default ConfirmModal

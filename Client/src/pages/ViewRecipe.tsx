@@ -114,8 +114,10 @@ export default function ViewRecipe() {
             <ConfirmModal 
               isOpen={confirmationIsOpen} 
               message='Are you sure you want to delete this recipe?'
-              onConfirm={(e) => handleDelete(e)}
+              onConfirm={handleDelete}
               onCancel={closeConfirmation}
+              confirmLabel='Delete'
+              cancelLabel='Cancel'
               />
         }
       </div>
