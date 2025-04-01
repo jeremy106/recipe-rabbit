@@ -3,7 +3,7 @@ import { RecipeData } from "../models/recipe";
 import { Ingredient } from "../models/ingredient";
 import { Step } from "../models/step";
 import request from "superagent"
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export default function useAddRecipeForm() {
 
@@ -54,7 +54,7 @@ export default function useAddRecipeForm() {
   }
 
   //Handle Steps
-  function handleStepChange(e: ChangeEvent<HTMLInputElement>, index: number) {
+  function handleStepChange(e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, index: number) {
     const { name, value } = e.target
     const updatedSteps: Step[] = [...recipe.steps]
 

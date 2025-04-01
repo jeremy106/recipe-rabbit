@@ -44,7 +44,6 @@ export default function AddRecipeForm() {
                 <input type="text" name="name" placeholder="Name" value={ingredient.name} onChange={(e) => handleIngredientChange(e, index)} />
                 <input type="text" name="amount" placeholder="Amount (e.g. 100g)" value={ingredient.amount} onChange={(e) => handleIngredientChange(e, index)} />
                 <input type="text" name="notes" placeholder="Notes (e.g. finely chopped)" value={ingredient.notes} onChange={(e) => handleIngredientChange(e, index)} />
-                {/* <button type="button" onClick={() => removeIngredient(index)}>Remove Ingredient</button> */}
                 <RemoveButton onClick={() => removeIngredient(index)}></RemoveButton>
               </div>
             ))
@@ -56,7 +55,6 @@ export default function AddRecipeForm() {
             recipe.steps.map((step, index) => (
               <div key={index} className={styles['item-row']}>
                 <textarea name="description" placeholder="Add intstructions step by step" value={step.description} onChange={(e) => handleStepChange(e, index)} />
-                {/* <button type="button" onClick={() => removeStep(index)}>Remove Step</button> */}
                 <RemoveButton onClick={() => removeStep(index)}></RemoveButton>
               </div>
             ))
@@ -118,7 +116,6 @@ export default function AddRecipeForm() {
         <div className={styles['submit']}>
           <button type="submit" className='button-primary'>Save recipe</button>
         </div>
-
       </form>
     </div>
     </>
